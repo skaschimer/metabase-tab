@@ -21,6 +21,15 @@
             (when-let [id (setting/get-value-of-type :integer :last-used-native-database-id)]
               (when (t2/exists? :model/Database :id id) id))))
 
+(defsetting dismissed-excel-pivot-exports-banner
+  (deferred-tru "Toggle which is true after a user has dismissed the excel pivot exports banner.")
+  :user-local :only
+  :export?    false
+  :visibility :authenticated
+  :type       :boolean
+  :default    false
+  :audit      :never)
+
 (defsetting dismissed-custom-dashboard-toast
   (deferred-tru "Toggle which is true after a user has dismissed the custom dashboard toast.")
   :user-local :only
@@ -100,3 +109,11 @@
   :export?    false
   :visibility :authenticated
   :type       :string)
+
+(defsetting user-visibility
+  (deferred-tru "Note: Sandboxed users will never see suggestions.")
+  :visibility   :authenticated
+  :feature      :email-restrict-recipients
+  :type         :keyword
+  :default      :all
+  :audit        :raw-value)
